@@ -1,20 +1,16 @@
 #include <iostream>
+
+#include "matrix_io.h"
 #include "solver.h"
 
 int main() {
+    std::ifstream infile("input.txt");
+    auto grid = inputGrid(infile);
 
-    std::vector<std::vector<int8_t>> grid = {
-            {0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0},
-            {0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0},
-            {0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0},
-            {0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1, 0, 0},
-            {0, 1, 0, 0, 1, 1, 0, 0, 1, 1, 1, 0, 0},
-            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0},
-            {0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0},
-            {0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0}
-    };
+    std::cout << "You entered grid:" << std::endl;
+    printGrid(std::cout, grid);
 
-    std::cout << findMaxIslandArea(grid) << std::endl;
+    std::cout << "Max area of an island:" << std::endl << findMaxIslandArea(grid) << std::endl;
 
     return 0;
 }
