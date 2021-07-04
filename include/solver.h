@@ -19,10 +19,10 @@ struct GridPoint {
  * @param point - координаты ячейки
  * @param gridWidth - ширина сетки
  * @param gridHeight - высота сетки
- * @param gridElement - значение ячейки
+ * @param grid - сетка
  * @return корректность ячейки
  */
-bool isValid(const GridPoint &point, size_t gridWidth, size_t gridHeight, int8_t gridElement);
+bool isValid(const GridPoint &point, size_t gridWidth, size_t gridHeight, std::vector<std::vector<int8_t>> &grid);
 
 /**
  * Нахождение максимальной площади среди всех островов

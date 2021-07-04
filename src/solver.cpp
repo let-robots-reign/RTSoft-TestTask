@@ -7,10 +7,10 @@
 constexpr size_t LAND_MARK = 1;
 constexpr size_t VISITED_LAND_MARK = 2;
 
-bool isValid(const GridPoint &point, size_t gridWidth, size_t gridHeight, int8_t gridElement) {
+bool isValid(const GridPoint &point, size_t gridWidth, size_t gridHeight, std::vector<std::vector<int8_t>> &grid) {
     const size_t x = point.x;
     const size_t y = point.y;
-    return (x >= 0 && y >= 0 && x < gridWidth && y < gridHeight && gridElement == LAND_MARK);
+    return (x >= 0 && y >= 0 && x < gridWidth && y < gridHeight && grid[x][y] == LAND_MARK);
 }
 
 size_t findMaxIslandArea(std::vector<std::vector<int8_t>> &grid) {
@@ -19,7 +19,7 @@ size_t findMaxIslandArea(std::vector<std::vector<int8_t>> &grid) {
     size_t maxIslandArea = 0;
     for (size_t i = 0; i < width; ++i) {
         for (size_t j = 0; j < height; ++j) {
-            if (grid[i][j] == 1) {
+            if (grid[i][j] == LAND_MARK) {
                 maxIslandArea = std::max(maxIslandArea, islandAreaDFS(grid, i, j));
             }
         }
@@ -30,7 +30,7 @@ size_t findMaxIslandArea(std::vector<std::vector<int8_t>> &grid) {
 size_t islandAreaDFS(std::vector<std::vector<int8_t>> &grid, size_t x, size_t y) {
     size_t width = grid.size();
     size_t height = grid[0].size();
-    if (!isValid({x, y}, width, height, grid[x][y])) {
+    if (!isValid({x, y}, width, height, grid)) {
         return 0;
     }
 
