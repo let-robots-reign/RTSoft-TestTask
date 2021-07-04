@@ -10,7 +10,7 @@ int main() {
     std::cout << "You entered grid:" << std::endl;
     printGrid(std::cout, grid);
 
-    std::cout << "Max area of an island:" << std::endl << findMaxIslandArea(grid) << std::endl;
+    std::cout << "Max area of an island:" << std::endl << findMaxIslandArea(grid, true) << std::endl;
 
     return 0;
 }

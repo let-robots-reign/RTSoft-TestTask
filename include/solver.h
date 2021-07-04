@@ -27,9 +27,10 @@ bool isValid(const GridPoint &point, size_t gridWidth, size_t gridHeight, std::v
 /**
  * Нахождение максимальной площади среди всех островов
  * @param grid - сетка (матрица) из значений 0 и 1
+ * @param isParallel - флаг (использовать потоки или нет)
  * @return число - площадь наибольшего острова
  */
-size_t findMaxIslandArea(std::vector<std::vector<int8_t>> &grid);
+size_t findMaxIslandArea(std::vector<std::vector<int8_t>> &grid, bool isParallel);
 
 /**
  * Depth-first search для данного острова

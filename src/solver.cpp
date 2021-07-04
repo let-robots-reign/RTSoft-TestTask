@@ -2,6 +2,8 @@
  * Алгоритм решения задачи
  */
 
+#include <thread>
+
 #include "solver.h"
 
 constexpr size_t LAND_MARK = 1;
@@ -13,14 +15,14 @@ bool isValid(const GridPoint &point, size_t gridWidth, size_t gridHeight, std::v
     return (x >= 0 && y >= 0 && x < gridWidth && y < gridHeight && grid[x][y] == LAND_MARK);
 }
 
-size_t findMaxIslandArea(std::vector<std::vector<int8_t>> &grid) {
+size_t findMaxIslandArea(std::vector<std::vector<int8_t>> &grid, bool isParallel) {
     size_t width = grid.size();
     size_t height = grid[0].size();
     size_t maxIslandArea = 0;
     for (size_t i = 0; i < width; ++i) {
         for (size_t j = 0; j < height; ++j) {
             if (grid[i][j] == LAND_MARK) {
-                maxIslandArea = std::max(maxIslandArea, islandAreaDFS(grid, i, j));
+                maxIslandArea = std::max(maxIslandArea, (isParallel) ? islandAreaDFSParallel(grid, i, j) : islandAreaDFS(grid, i, j));
             }
         }
     }
@@ -47,5 +49,33 @@ size_t islandAreaDFS(std::vector<std::vector<int8_t>> &grid, size_t x, size_t y)
 }
 
 size_t islandAreaDFSParallel(std::vector<std::vector<int8_t>> &grid, size_t x, size_t y) {
-    return 0;
+    size_t width = grid.size();
+    size_t height = grid[0].size();
+    if (!isValid({x, y}, width, height, grid)) {
+        return 0;
+    }
+
+    grid[x][y] = VISITED_LAND_MARK;
+
+    size_t result = 1;
+
+    std::thread threadLeft([&]() {
+        result += islandAreaDFS(grid, x - 1, y);
+    });
+    std::thread threadRight([&]() {
+        result += islandAreaDFS(grid, x + 1, y);
+    });
+    std::thread threadUp([&]() {
+        result += islandAreaDFS(grid, x, y + 1);
+    });
+    std::thread threadDown([&]() {
+        result += islandAreaDFS(grid, x, y - 1);
+    });
+
+    threadLeft.join();
+    threadRight.join();
+    threadUp.join();
+    threadDown.join();
+
+    return result;
 }
